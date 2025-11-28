@@ -83,6 +83,51 @@ namespace CoffeeManagement
             orders.Clear();
         }
 
+        public void SearchCoffee()
+        {
+            Console.Write("\nEnter coffee name to search: ");
+            string name = Console.ReadLine().Trim();
+
+            if (menu.ContainsKey(name))
+                Console.WriteLine($"{name} is available for ${menu[name]:F2}");
+            else
+                Console.WriteLine($"{name} is not available.");
+        }
+
+        public void RemoveOrder()
+        {
+            if (orders.Count == 0)
+            {
+                Console.WriteLine("No orders to remove.");
+                return;
+            }
+
+            Console.Write("\nEnter order name to remove: ");
+            string name = Console.ReadLine().Trim();
+
+            int index = orders.FindIndex(o => o.coffee.Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (index != -1)
+            {
+                orders.RemoveAt(index);
+                Console.WriteLine($"{name} removed from orders.");
+            }
+            else
+                Console.WriteLine("Order not found.");
+        }
+
+        public void ClearOrders()
+        {
+            if (orders.Count == 0)
+            {
+                Console.WriteLine("No orders to clear.");
+                return;
+            }
+
+            orders.Clear();
+            Console.WriteLine("All orders cleared.");
+        }
+
         public void Run()
         {
             while (true)
@@ -92,33 +137,28 @@ namespace CoffeeManagement
                 Console.WriteLine("2. Add Order");
                 Console.WriteLine("3. View Orders");
                 Console.WriteLine("4. Checkout");
-                Console.WriteLine("5. Exit");
+                Console.WriteLine("5. Search Coffee");
+                Console.WriteLine("6. Remove Order");
+                Console.WriteLine("7. Clear Orders");
+                Console.WriteLine("8. Exit");
                 Console.Write("Choose: ");
                 string c = Console.ReadLine();
 
                 switch (c)
                 {
-                    case "1":
-                        ShowMenu();
-                        break;
-                    case "2":
-                        AddOrder();
-                        break;
-                    case "3":
-                        ViewOrders();
-                        break;
-                    case "4":
-                        Checkout();
-                        break;
-                    case "5":
-                        return;
-                    default: Console.WriteLine("Invalid");
-                        break;
+                    case "1": ShowMenu(); break;
+                    case "2": AddOrder(); break;
+                    case "3": ViewOrders(); break;
+                    case "4": Checkout(); break;
+                    case "5": SearchCoffee(); break;
+                    case "6": RemoveOrder(); break;
+                    case "7": ClearOrders(); break;
+                    case "8": return;
+                    default: Console.WriteLine("Invalid"); break;
                 }
 
                 Console.WriteLine("Press any key...");
                 Console.ReadKey();
             }
         }
-    }
 }
